@@ -1,8 +1,21 @@
 # Penguin Dashboard
 
+### Approach
+
+This project was developed to provide an interactive dashboard for visualizing data, in this case, it's been used one penguin dataset, but you can easily substitute it for any other scenario. I chose Vue.js for the front end because of its ease of use and flexibility in building dynamic user interfaces. Flask was selected for the backend due to its lightweight nature and ability to serve APIs efficiently. We are also using Plotly on the front and back end.
+
+The communication between the frontend and backend is facilitated using Axios for making HTTP requests, enabling real-time data filtering based on user inputs. 
+
+### Assumptions
+
+- Users have a basic understanding of command line operations.
+- Have the following installed on machine: Python 3.x, Pipenv, Node.js
+- The dataset (penguins.csv) is correctly formatted and located in the `server` directory as expected by the backend.
+
+
 ## Overview
 
-The Penguin Dashboard is a web application designed to visualize and analyze data on penguins. This project utilizes Vue.js for the front end and Flask as the back end to serve data and handle user interactions. Users can filter penguin data through a set of sliders and dropdowns, dynamically updating scatter plots and histograms based on their selections.
+The Penguin Dashboard is a web application designed to visualize and analyze data on penguins. This project utilizes Vue.js for the front end and Flask as the back end to serve data and handle user interactions. Users can filter penguin data through sliders and dropdowns, dynamically updating scatter plots and histograms based on their selections. Other options exist to interact with the plot by clicking or selecting an area on them.
 
 ![Penguin Dashboard](client/src/assets/screencapture.png)
 
@@ -14,19 +27,9 @@ The Penguin Dashboard is a web application designed to visualize and analyze dat
 
 ## Technologies Used
 
-- **Frontend**: Vue.js, Plotly.js
-- **Backend**: Flask, Pandas
-- **Package Management**: Pipenv
-
-## Getting Started
-
-### Prerequisites
-
-Ensure you have the following installed on your machine:
-
-- Python 3.x
-- Node.js
-- Pipenv
+- **Frontend**: Vue.js, Plotly.js, TypeScript, Vite, Axios
+- **Backend**: Flask, Pandas, plotly, CORS
+- **Package Management**: Pipenv, NPM
 
 ### Setup Instructions
 
