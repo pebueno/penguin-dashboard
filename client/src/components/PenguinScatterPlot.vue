@@ -1,23 +1,31 @@
 <template>
     <div>
-        <h3>Scatter Plot</h3>
-        <div id="scatter-plot" ref="scatterPlot"></div>
+        <div id="plotly-chart" ref="scatterPlot"></div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, watch, onMounted } from 'vue';
 import Plotly from 'plotly.js-dist';
-import { mockPenguinData } from '../mockData';
 
 export default defineComponent({
-    setup() {
+    props: {
+        penguinData: {
+            type: Array,
+            required: true,
+        },
+    },
+    setup(props) {
         const scatterPlot = ref<HTMLElement | null>(null);
+        const updatePlot = () => {
+            if (!Array.isArray(props.penguinData) || props.penguinData.length === 0) {
+                console.error('No penguin data available to plot.');
+                return;
+            }
 
-        onMounted(() => {
             const data = [{
-                x: mockPenguinData.map(p => p.flipper_length_mm),
-                y: mockPenguinData.map(p => p.body_mass_g),
+                x: props.penguinData.map(p => p.flipper_length_mm),
+                y: props.penguinData.map(p => p.body_mass_g),
                 mode: 'markers',
                 type: 'scatter',
                 marker: { size: 10, color: 'blue' },
@@ -29,8 +37,16 @@ export default defineComponent({
                 yaxis: { title: 'Body Mass (g)' },
             };
 
-            Plotly.newPlot(scatterPlot.value, data, layout);
-        });
+            if (scatterPlot.value) {
+                Plotly.newPlot(scatterPlot.value, data, layout);
+            }
+        };
+
+
+
+        watch(() => props.penguinData, updatePlot);
+
+        onMounted(updatePlot);
 
         return { scatterPlot };
     },
@@ -38,8 +54,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-#scatter-plot {
+#plotly-chart {
     width: 100%;
-    height: 400px;
+    height: 500px;
 }
 </style>
