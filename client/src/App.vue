@@ -4,6 +4,7 @@
     <FilterControls @updateFilters="updateFilters" />
     <PenguinList :penguinData="filteredPenguinData" />
     <PenguinScatterPlot :penguinData="filteredPenguinData" />
+    <PenguinHistogram :penguinData="filteredPenguinData" />
   </div>
 </template>
 
@@ -11,6 +12,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import PenguinList from './components/PenguinList.vue';
 import PenguinScatterPlot from './components/PenguinScatterPlot.vue';
+import PenguinHistogram from './components/PenguinHistogram.vue';
 import FilterControls from './components/FilterControls.vue';
 import { mockPenguinData } from './mockData';
 
@@ -18,6 +20,7 @@ export default defineComponent({
   components: {
     PenguinList,
     PenguinScatterPlot,
+    PenguinHistogram,
     FilterControls,
   },
   setup() {
@@ -48,4 +51,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* Your styles here */
 </style>
