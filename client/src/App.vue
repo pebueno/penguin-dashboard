@@ -2,35 +2,38 @@
   <div id="app">
     <h1>Penguin Dashboard</h1>
     <FilterControls @updateFilters="updateFilters" />
-    <PenguinList :penguinData="filteredPenguinData" />
     <PenguinScatterPlot :penguinData="filteredPenguinData" />
     <PenguinHistogram :penguinData="filteredPenguinData" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
-import PenguinList from './components/PenguinList.vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import PenguinScatterPlot from './components/PenguinScatterPlot.vue';
 import PenguinHistogram from './components/PenguinHistogram.vue';
 import FilterControls from './components/FilterControls.vue';
-import { mockPenguinData } from './mockData';
+
+interface Penguin {
+  species: string;
+  island: string;
+  flipper_length_mm: number;
+  body_mass_g: number;
+}
 
 export default defineComponent({
   components: {
-    PenguinList,
     PenguinScatterPlot,
     PenguinHistogram,
     FilterControls,
   },
   setup() {
-    const penguinData = ref(mockPenguinData);
-    const selectedSpecies = ref('');
-    const selectedIsland = ref('');
-    const flipperLength = ref(170);
-    const bodyMass = ref(2500);
+    const penguinData = ref<Penguin[]>([]); // Initialize as an empty array
+    const selectedSpecies = ref<string>('');
+    const selectedIsland = ref<string>('');
+    const flipperLength = ref<number>(170);
+    const bodyMass = ref<number>(2500);
 
-    const updateFilters = (filters) => {
+    const updateFilters = (filters: any) => {
       selectedSpecies.value = filters.species;
       selectedIsland.value = filters.island;
       flipperLength.value = filters.flipper_length_mm;
@@ -47,6 +50,18 @@ export default defineComponent({
         return speciesMatch && islandMatch && flipperLengthMatch && bodyMassMatch;
       });
     });
+
+    const fetchPenguinData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/data');
+        const data = await response.json();
+        penguinData.value = data;
+      } catch (error) {
+        console.error('Error fetching penguin data:', error);
+      }
+    };
+
+    onMounted(() => fetchPenguinData());
 
     return {
       penguinData,
